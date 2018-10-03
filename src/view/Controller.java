@@ -15,14 +15,16 @@ import domain.model.Person;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "Controller")
+@WebServlet("/Controller")
 public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final ShopService service;
+    private final ShopService servicePerson;
+    private final ShopService serviceProduct;
 
     public Controller() {
         super();
-        service = new ShopService();
+        servicePerson = new ShopService();
+        serviceProduct = new ShopService();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,6 +45,10 @@ public class Controller extends HttpServlet {
         switch(action) {
             case "personOverview":
                 personOverview(request, response);
+            break;
+
+            case "productOverview":
+                productOverview(request, response);
             break;
 
             case "addPerson":
@@ -68,8 +74,13 @@ public class Controller extends HttpServlet {
     }
 
     private void personOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("persons", service.getPersons());
+        request.setAttribute("persons", servicePerson.getPersons());
         request.getRequestDispatcher("personoverview.jsp").forward(request, response);
+    }
+
+    private void productOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("records", serviceProduct.getProducts());
+        request.getRequestDispatcher("productoverview.jsp").forward(request, response);
     }
 
     private void addPerson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,7 +101,7 @@ public class Controller extends HttpServlet {
 
         try {
             if (errors.isEmpty()) {
-                service.addPerson(pe);
+                servicePerson.addPerson(pe);
             }
         }
         catch (DbException e) {

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,10 @@
                         <a href="Controller">Home</a>
                     </li>
                     <li id="actual">
-                        <a href="Controller?action=personOverview">Overview</a>
+                        <a href="Controller?action=personOverview">Users</a>
+                    </li>
+                    <li>
+                        <a href="Controller?action=productOverview">Products</a>
                     </li>
                     <li>
                         <a href="Controller?action=naarSignUp">Sign up</a>
@@ -36,11 +40,13 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                 </tr>
+                <c:forEach var="person" items="${persons}">
                 <tr>
-                    <td>jan.janssens@hotmail.com</td>
-                    <td>Jan</td>
-                    <td>Janssens</td>
+                    <td><c:out value='${person.email}'/></td>
+                    <td><c:out value='${person.firstName}'/></td>
+                    <td><c:out value='${person.lastName}'/></td>
                 </tr>
+                </c:forEach>
                 <caption>Users Overview</caption>
             </table>
         </main>

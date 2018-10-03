@@ -19,7 +19,10 @@
 						<a href="Controller">Home</a>
 					</li>
 					<li>
-						<a href="Controller?action=personOverview">Overview</a>
+						<a href="Controller?action=personOverview">Users</a>
+					</li>
+					<li>
+						<a href="Controller?action=productOverview">Products</a>
 					</li>
 					<li>
 						<a href="Controller?action=naarSignUp">Sign up</a>

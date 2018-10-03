@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,10 @@
                         <a href="Controller">Home</a>
                     </li>
                     <li>
-                        <a href="Controller?action=personOverview">Overview</a>
+                        <a href="Controller?action=personOverview">Users</a>
+                    </li>
+                    <li>
+                        <a href="Controller?action=productOverview">Products</a>
                     </li>
                     <li id="actual">
                         <a href="Controller?action=naarSignUp">Sign up</a>
@@ -29,28 +33,33 @@
             <h2>Sign Up</h2>
         </header>
         <main>
-        <div class="alert-danger">
-            <ul>
-                <li>Some error</li>
-            </ul>
-        </div>
-        <form method="post" action="" novalidate="novalidate">
+            <c:set var="fouten" value="${errors}"/>
+            <c:if test="${errors != null}">
+                <div class="alert-danger">
+                    <ul>
+                        <c:forEach var="error" items="${errors}">
+                            <li>${error}</li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </c:if>
+        <form method="post" action="Controller?action=addPerson" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
                 <label for="userid">User id</label>
-                <input type="text" id="userid" name="userid" required value="">
+                <input type="text" id="userid" name="userid" required value="<c:out value='${userid}'/>">
             </p>
             <p>
                 <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" required value="">
+                <input type="text" id="firstName" name="firstName" required value="<c:out value='${firstName}'/>">
             </p>
             <p>
                 <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName"required value="">
+                <input type="text" id="lastName" name="lastName"required value="<c:out value='${lastName}'/>">
             </p>
             <p>
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required value="">
+                <input type="email" id="email" name="email" required value="<c:out value='${email}'/>">
             </p>
             <p>
                 <label for="password">Password</label>
