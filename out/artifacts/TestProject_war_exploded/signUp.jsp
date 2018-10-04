@@ -28,17 +28,20 @@
                     <li id="actual">
                         <a href="Controller?action=naarSignUp">Sign up</a>
                     </li>
+                    <li>
+                        <a href="Controller?action=naarAddProduct">Add Product</a>
+                    </li>
                 </ul>
             </nav>
             <h2>Sign Up</h2>
         </header>
         <main>
-            <c:set var="fouten" value="${errors}"/>
-            <c:if test="${errors != null}">
+            <c:set var="foutenPerson" value="${errorsPerson}"/>
+            <c:if test="${errorsPerson != null}">
                 <div class="alert-danger">
                     <ul>
-                        <c:forEach var="error" items="${errors}">
-                            <li>${error}</li>
+                        <c:forEach var="errorPerson" items="${errorsPerson}">
+                            <li>${errorPerson}</li>
                         </c:forEach>
                     </ul>
                 </div>

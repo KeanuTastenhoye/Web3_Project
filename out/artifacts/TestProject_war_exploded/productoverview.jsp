@@ -28,6 +28,9 @@
                 <li>
                     <a href="Controller?action=naarSignUp">Sign up</a>
                 </li>
+                <li>
+                    <a href="Controller?action=naarAddProduct">Add Product</a>
+                </li>
             </ul>
         </nav>
         <h2>Product Overview</h2>
@@ -40,12 +43,12 @@
                 <th>Description</th>
                 <th>Price</th>
             </tr>
-            <c:forEach var="product" items="${products}">
-                <tr>
-                    <td><c:out value='${product.name}'/></td>
-                    <td><c:out value='${product.description}'/></td>
-                    <td><c:out value='${product.price}'/></td>
-                </tr>
+            <c:forEach var="product" items="${records}">
+            <tr>
+                <td><a href="Controller?action=editProduct&productId=<c:out value='${product.productId}'/>"><c:out value='${product.name}'/></a></td>
+                <td><c:out value='${product.description}'/></td>
+                <td><c:out value='${product.price}'/></td>
+            </tr>
             </c:forEach>
             <caption>Products Overview</caption>
         </table>

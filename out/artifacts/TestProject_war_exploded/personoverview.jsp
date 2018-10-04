@@ -28,6 +28,9 @@
                     <li>
                         <a href="Controller?action=naarSignUp">Sign up</a>
                     </li>
+                    <li>
+                        <a href="Controller?action=naarAddProduct">Add Product</a>
+                    </li>
                 </ul>
             </nav>
             <h2>User Overview</h2>

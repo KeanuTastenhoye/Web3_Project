@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import domain.db.DbException;
+import domain.model.DomainException;
 import domain.model.ShopService;
 import domain.model.Person;
+import domain.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +57,24 @@ public class Controller extends HttpServlet {
                 addPerson(request, response);
             break;
 
+            case "addProduct":
+                addProduct(request, response);
+            break;
+
             case "naarSignUp":
                 naarSignUp(request, response);
+            break;
+
+            case "naarAddProduct":
+                naarAddProduct(request, response);
+            break;
+
+            case "editProduct":
+                editProduct(request, response);
+            break;
+
+            case "updateProduct":
+                updateProduct(request, response);
             break;
 
             default:
@@ -71,6 +89,10 @@ public class Controller extends HttpServlet {
 
     private void naarSignUp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("signUp.jsp").forward(request, response);
+    }
+
+    private void naarAddProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("addProduct.jsp").forward(request, response);
     }
 
     private void personOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -91,28 +113,28 @@ public class Controller extends HttpServlet {
         String password = request.getParameter("password");
 
         Person pe = new Person();
-        List<String> errors = new ArrayList<>();
+        List<String> errorsPerson = new ArrayList<>();
 
-        this.setUserid(errors, pe, userid);
-        this.setFirstName(errors, pe, firstName);
-        this.setLastName(errors, pe, lastName);
-        this.setEmail(errors, pe, email);
-        this.setPassword(errors, pe, password);
+        this.setUserid(errorsPerson, pe, userid);
+        this.setFirstName(errorsPerson, pe, firstName);
+        this.setLastName(errorsPerson, pe, lastName);
+        this.setEmail(errorsPerson, pe, email);
+        this.setPassword(errorsPerson, pe, password);
 
         try {
-            if (errors.isEmpty()) {
+            if (errorsPerson.isEmpty()) {
                 servicePerson.addPerson(pe);
             }
         }
         catch (DbException e) {
-            errors.add(e.getMessage());
+            errorsPerson.add(e.getMessage());
         }
 
-        if (errors.isEmpty()) {
+        if (errorsPerson.isEmpty()) {
             personOverview(request, response);
         }
         else {
-            request.setAttribute("errors", errors);
+            request.setAttribute("errorsPerson", errorsPerson);
             request.setAttribute("userid", userid);
             request.setAttribute("firstName", firstName);
             request.setAttribute("lastName", lastName);
@@ -121,48 +143,158 @@ public class Controller extends HttpServlet {
         }
     }
 
-    private void setUserid (List<String> errors, Person pe, String userid) {
+    private void setUserid (List<String> errorsPerson, Person pe, String userid) {
         try {
             pe.setUserid(userid);
         }
         catch (IllegalArgumentException e) {
-            errors.add(e.getMessage());
+            errorsPerson.add(e.getMessage());
         }
     }
 
-    private void setFirstName (List<String> errors, Person pe, String firstName) {
+    private void setFirstName (List<String> errorsPerson, Person pe, String firstName) {
         try {
             pe.setFirstName(firstName);
         }
         catch (IllegalArgumentException e) {
-            errors.add(e.getMessage());
+            errorsPerson.add(e.getMessage());
         }
     }
 
-    private void setLastName (List<String> errors, Person pe, String lastName) {
+    private void setLastName (List<String> errorsPerson, Person pe, String lastName) {
         try {
             pe.setLastName(lastName);
         }
         catch (IllegalArgumentException e) {
-            errors.add(e.getMessage());
+            errorsPerson.add(e.getMessage());
         }
     }
 
-    private void setEmail (List<String> errors, Person pe, String email) {
+    private void setEmail (List<String> errorsPerson, Person pe, String email) {
         try {
             pe.setEmail(email);
         }
         catch (IllegalArgumentException e) {
-            errors.add(e.getMessage());
+            errorsPerson.add(e.getMessage());
         }
     }
 
-    private void setPassword (List<String> errors, Person pe, String password) {
+    private void setPassword (List<String> errorsPerson, Person pe, String password) {
         try {
             pe.setPassword(password);
         }
         catch (IllegalArgumentException e) {
-            errors.add(e.getMessage());
+            errorsPerson.add(e.getMessage());
+        }
+    }
+
+    private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String price = request.getParameter("price");
+
+        Product pr = new Product();
+        List<String> errorsProduct = new ArrayList<>();
+
+        this.setName(errorsProduct, pr, name);
+        this.setDescription(errorsProduct, pr, description);
+        this.setPrice(errorsProduct, pr, price);
+
+        try {
+            if (errorsProduct.isEmpty()) {
+                serviceProduct.addProduct(pr);
+            }
+        }
+        catch (DbException e) {
+            errorsProduct.add(e.getMessage());
+        }
+
+        if (errorsProduct.isEmpty()) {
+            productOverview(request, response);
+        }
+        else {
+            request.setAttribute("errorsProduct", errorsProduct);
+            request.setAttribute("name", name);
+            request.setAttribute("description", description);
+            request.setAttribute("price", price);
+            naarAddProduct(request, response);
+        }
+    }
+
+    private void setName (List<String> errorsProduct, Product pr, String name) {
+        try {
+            pr.setName(name);
+        }
+        catch (DomainException e) {
+            errorsProduct.add(e.getMessage());
+        }
+    }
+
+    private void setDescription (List<String> errorsProduct, Product pr, String description) {
+        try {
+            pr.setDescription(description);
+        }
+        catch (DomainException e) {
+            errorsProduct.add(e.getMessage());
+        }
+    }
+
+    private void setPrice (List<String> errorsProduct, Product pr, String price) {
+        try {
+            pr.setPrice(price);
+        }
+        catch (DomainException e) {
+            errorsProduct.add(e.getMessage());
+        }
+    }
+
+    private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String productId = request.getParameter("productId");
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String price = request.getParameter("price");
+
+        try {
+            Product pr = serviceProduct.getProduct(Integer.parseInt(productId));
+            List<String> errorsProduct = new ArrayList<String>();
+
+            this.setName(errorsProduct, pr, name);
+            this.setDescription(errorsProduct, pr, description);
+            this.setPrice(errorsProduct, pr, price);
+
+            try {
+                if (errorsProduct.isEmpty()) {
+                    serviceProduct.updateProducts(pr);
+                }
+            }
+            catch (DbException e) {
+                errorsProduct.add(e.getMessage());
+            }
+
+            if (errorsProduct.isEmpty()) {
+                productOverview(request, response);
+            }
+            else {
+                request.setAttribute("errorsProduct", errorsProduct);
+                request.setAttribute("product", pr);
+                editProduct(request, response);
+            }
+        }
+        catch (DbException e) {
+            editProduct(request, response);
+        }
+    }
+
+    private void editProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String productId = request.getParameter("productId");
+
+        try {
+            Product pr = serviceProduct.getProduct(Integer.parseInt(productId));
+            request.setAttribute("product", pr);
+            request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
+        }
+        catch (DbException e) {
+            productOverview(request, response);
         }
     }
 

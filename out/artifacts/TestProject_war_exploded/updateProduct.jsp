@@ -5,7 +5,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8">
-    <title>Sign Up</title>
+    <title>Update Product</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -28,12 +28,12 @@
                 <li>
                     <a href="Controller?action=naarSignUp">Sign up</a>
                 </li>
-                <li id="actual">
+                <li>
                     <a href="Controller?action=naarAddProduct">Add Product</a>
                 </li>
             </ul>
         </nav>
-        <h2>Add Product</h2>
+        <h2>Update Product</h2>
     </header>
     <main>
         <c:set var="foutenProduct" value="${errorsProduct}"/>
@@ -46,26 +46,22 @@
                 </ul>
             </div>
         </c:if>
-        <form method="post" action="Controller?action=addProduct" novalidate="novalidate">
+        <form method="post" action="Controller?action=updateProduct&productId=<c:out value='${product.productId}'/>" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
-                <label for="productid">Product id</label>
-                <input type="number" id="productid" name="productid" required value="<c:out value='${productid}'/>">
-            </p>
-            <p>
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" required value="<c:out value='${name}'/>">
+                <input type="text" id="name" name="name" required value="<c:out value='${product.name}'/>">
             </p>
             <p>
                 <label for="description">Description</label>
-                <input type="text" id="description" name="description"required value="<c:out value='${description}'/>">
+                <input type="text" id="description" name="description"required value="<c:out value='${product.description}'/>">
             </p>
             <p>
                 <label for="price">Price</label>
-                <input type="number" id="price" name="price" required value="<c:out value='${price}'/>">
+                <input type="number" id="price" name="price" required value="<c:out value='${product.price}'/>">
             </p>
             <p>
-                <input type="submit" id="addProduct" value="Add Product">
+                <input type="submit" id="updateProduct" value="Update Product">
             </p>
         </form>
     </main>
