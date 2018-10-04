@@ -48,6 +48,7 @@
                     <td><c:out value='${person.email}'/></td>
                     <td><c:out value='${person.firstName}'/></td>
                     <td><c:out value='${person.lastName}'/></td>
+                    <td><a href="Controller?action=deletePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
                 </tr>
                 </c:forEach>
                 <caption>Users Overview</caption>

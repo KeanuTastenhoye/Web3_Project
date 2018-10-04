@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
 
 import java.io.IOException;
 
@@ -75,6 +76,14 @@ public class Controller extends HttpServlet {
 
             case "updateProduct":
                 updateProduct(request, response);
+            break;
+
+            case "deleteProduct":
+                deleteProduct(request, response);
+            break;
+
+            case "deletePerson":
+                deletePerson(request, response);
             break;
 
             default:
@@ -296,6 +305,33 @@ public class Controller extends HttpServlet {
         catch (DbException e) {
             productOverview(request, response);
         }
+    }
+
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to  delete this product?", "Select an option!", JOptionPane.OK_CANCEL_OPTION);
+
+        if (input == 0) {
+            String productId = request.getParameter("productId");
+            serviceProduct.deleteProduct(Integer.parseInt(productId));
+            productOverview(request, response);
+        }
+        else {
+            productOverview(request, response);
+        }
+    }
+
+    private void deletePerson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to  delete this person?", "Select an option!", JOptionPane.OK_CANCEL_OPTION);
+
+        if (input == 0) {
+            String userid = request.getParameter("userid");
+            servicePerson.deletePerson(userid);
+            personOverview(request, response);
+        }
+        else {
+            personOverview(request, response);
+        }
+
     }
 
 }
