@@ -24,6 +24,20 @@ public class Project_UI {
 
         Connection connection = DriverManager.getConnection(url,properties);
         Statement statement = connection.createStatement();
+
+        String newUserid = JOptionPane.showInputDialog("User ID:");
+        String newFirstName = JOptionPane.showInputDialog("Firstname:");
+        String newLastName = JOptionPane.showInputDialog("Lastname:");
+        String newEmail = JOptionPane.showInputDialog("Email:");
+        String newPassword = JOptionPane.showInputDialog("Password:");
+        String sql = "INSERT INTO person VALUES ('"
+                + newUserid + "', '"
+                + newFirstName + "', '"
+                + newLastName + "', '"
+                + newEmail + "', '"
+                + newPassword + "')";
+        statement.executeUpdate(sql);
+
         ResultSet result = statement.executeQuery( "SELECT * FROM person" );
 
         while(result.next()) {
@@ -40,18 +54,6 @@ public class Project_UI {
                 System.out.println(e.getMessage());
             }
         }
-                String newUserid = JOptionPane.showInputDialog("User ID:");
-                String newFirstName = JOptionPane.showInputDialog("Firstname:");
-                String newLastName = JOptionPane.showInputDialog("Lastname:");
-                String newEmail = JOptionPane.showInputDialog("Email:");
-                String newPassword = JOptionPane.showInputDialog("Password:");
-                String sql = "INSERT INTO person VALUES ('"
-                        + newUserid + "', '"
-                        + newFirstName + "', '"
-                        + newLastName + "', '"
-                        + newEmail + "', '"
-                        + newPassword + "')";
-                statement.executeUpdate(sql);
 
         statement.close();
         connection.close();

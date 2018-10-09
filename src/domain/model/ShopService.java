@@ -1,19 +1,21 @@
 package domain.model;
 
-import domain.db.PersonDbInMemory;
-import domain.db.ProductDbInMemory;
+import domain.db.PersonDB;
+import domain.db.PersonDBSQL;
+import domain.db.ProductDB;
+import domain.db.ProductDBSQL;
 
 import java.util.List;
 
 public class ShopService {
-    private PersonDbInMemory personDb = new PersonDbInMemory();
-    private ProductDbInMemory productDb = new ProductDbInMemory();
+    private PersonDB personDb = new PersonDBSQL();
+    private ProductDB productDb = new ProductDBSQL();
 
     public ShopService() { }
 
-    private PersonDbInMemory getPersonDb() { return personDb; }
+    private PersonDB getPersonDb() { return personDb; }
 
-    private ProductDbInMemory getProductDb() { return productDb; }
+    private ProductDB getProductDb() { return productDb; }
 
     public Person getPerson(String personId) { return getPersonDb().get(personId); }
 
