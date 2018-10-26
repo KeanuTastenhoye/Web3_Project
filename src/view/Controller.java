@@ -5,7 +5,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
 
 import java.io.IOException;
 
@@ -21,13 +20,11 @@ import java.util.List;
 @WebServlet("/Controller")
 public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final ShopService servicePerson;
-    private final ShopService serviceProduct;
+    private final ShopService service;
 
     public Controller() {
         super();
-        servicePerson = new ShopService();
-        serviceProduct = new ShopService();
+        service = new ShopService();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -78,8 +75,16 @@ public class Controller extends HttpServlet {
                 updateProduct(request, response);
             break;
 
+            case "removeProduct":
+                removeProduct(request, response);
+            break;
+
             case "deleteProduct":
                 deleteProduct(request, response);
+            break;
+
+            case "removePerson":
+                removePerson(request, response);
             break;
 
             case "deletePerson":
@@ -105,12 +110,12 @@ public class Controller extends HttpServlet {
     }
 
     private void personOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("persons", servicePerson.getPersons());
+        request.setAttribute("persons", service.getPersons());
         request.getRequestDispatcher("personoverview.jsp").forward(request, response);
     }
 
     private void productOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("records", serviceProduct.getProducts());
+        request.setAttribute("records", service.getProducts());
         request.getRequestDispatcher("productoverview.jsp").forward(request, response);
     }
 
@@ -132,7 +137,7 @@ public class Controller extends HttpServlet {
 
         try {
             if (errorsPerson.isEmpty()) {
-                servicePerson.addPerson(pe);
+                service.addPerson(pe);
             }
         }
         catch (DbException e) {
@@ -198,6 +203,7 @@ public class Controller extends HttpServlet {
     }
 
     private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int productId = Integer.parseInt(request.getParameter("productId"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String price = request.getParameter("price");
@@ -205,13 +211,14 @@ public class Controller extends HttpServlet {
         Product pr = new Product();
         List<String> errorsProduct = new ArrayList<>();
 
+        this.setProductId(errorsProduct, pr, productId);
         this.setName(errorsProduct, pr, name);
         this.setDescription(errorsProduct, pr, description);
         this.setPrice(errorsProduct, pr, price);
 
         try {
             if (errorsProduct.isEmpty()) {
-                serviceProduct.addProduct(pr);
+                service.addProduct(pr);
             }
         }
         catch (DbException e) {
@@ -223,10 +230,20 @@ public class Controller extends HttpServlet {
         }
         else {
             request.setAttribute("errorsProduct", errorsProduct);
+            request.setAttribute("productId", productId);
             request.setAttribute("name", name);
             request.setAttribute("description", description);
             request.setAttribute("price", price);
             naarAddProduct(request, response);
+        }
+    }
+
+    private void setProductId (List<String> errorsProduct, Product pr, int productId) {
+        try {
+            pr.setProductId(productId);
+        }
+        catch (DomainException | NumberFormatException e) {
+            errorsProduct.add(e.getMessage());
         }
     }
 
@@ -264,7 +281,7 @@ public class Controller extends HttpServlet {
         String price = request.getParameter("price");
 
         try {
-            Product pr = serviceProduct.getProduct(Integer.parseInt(productId));
+            Product pr = service.getProduct(Integer.parseInt(productId));
             List<String> errorsProduct = new ArrayList<String>();
 
             this.setName(errorsProduct, pr, name);
@@ -273,7 +290,7 @@ public class Controller extends HttpServlet {
 
             try {
                 if (errorsProduct.isEmpty()) {
-                    serviceProduct.updateProducts(pr);
+                    service.updateProducts(pr);
                 }
             }
             catch (DbException e) {
@@ -298,7 +315,7 @@ public class Controller extends HttpServlet {
         String productId = request.getParameter("productId");
 
         try {
-            Product pr = serviceProduct.getProduct(Integer.parseInt(productId));
+            Product pr = service.getProduct(Integer.parseInt(productId));
             request.setAttribute("product", pr);
             request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
         }
@@ -307,31 +324,52 @@ public class Controller extends HttpServlet {
         }
     }
 
-    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to  delete this product?", "Select an option!", JOptionPane.OK_CANCEL_OPTION);
-
-        if (input == 0) {
-            String productId = request.getParameter("productId");
-            serviceProduct.deleteProduct(Integer.parseInt(productId));
-            productOverview(request, response);
+    private void removeProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String productId = request.getParameter("productId");
+        try {
+            request.setAttribute("product", service.getProduct(Integer.parseInt(productId)));
+            request.getRequestDispatcher("deleteProduct.jsp").forward(request, response);
         }
-        else {
+        catch (DbException e) {
             productOverview(request, response);
         }
     }
 
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String productId = request.getParameter("productId");
+
+        try {
+            service.deleteProduct(Integer.parseInt(productId));
+        }
+        catch (NumberFormatException e) {
+        }
+        catch (DbException e) {
+            System.out.println("DBProduct exception");
+        }
+        productOverview(request, response);
+    }
+
+    private void removePerson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userid = request.getParameter("userid");
+        try {
+            request.setAttribute("person", service.getPerson(userid));
+            request.getRequestDispatcher("deletePerson.jsp").forward(request, response);
+        }
+        catch (DbException e) {
+            personOverview(request, response);
+        }
+    }
+
     private void deletePerson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to  delete this person?", "Select an option!", JOptionPane.OK_CANCEL_OPTION);
+        String userid = request.getParameter("userid");
 
-        if (input == 0) {
-            String userid = request.getParameter("userid");
-            servicePerson.deletePerson(userid);
-            personOverview(request, response);
+        try {
+            service.deletePerson(userid);
         }
-        else {
-            personOverview(request, response);
+        catch (DbException e) {
+            System.out.println("DBPerson exception");
         }
-
+        personOverview(request, response);
     }
 
 }

@@ -33,8 +33,6 @@ public class ProductDbInMemory implements ProductDB {
         if(product == null){
             throw new DbException("No product given");
         }
-        int id = records.size() + 1;
-        product.setProductId(id);
         if (records.containsKey(product.getProductId())) {
             throw new DbException("Product already exists");
         }

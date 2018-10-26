@@ -24,22 +24,22 @@ public class ProductDBSQL implements ProductDB {
     }
 
     @Override
-    public void add(Product product) {
+    public void add(Product product) { //Elk item krijgt 0 als id --> error
         if (product == null) {
             throw new DbException("Nothing to add");
         }
 
-        String sql = "INSERT INTO product (productId, name, description, price)"
-                   + "VALUES ('"
-                   + product.getProductId() + "', '"
-                   + product.getName() + "', '"
-                   + product.getDescription() + "', '"
-                   + product.getPrice() + ")";
+        String sql = "INSERT INTO product (\"productId\", name, description, price)" +
+                     "VALUES (?, ?, ?, ?)";
 
-        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, product.getProductId());
+            statement.setString(2, product.getName());
+            statement.setString(3, product.getDescription());
+            statement.setDouble(4, product.getPrice());
+            statement.execute();
         } catch (SQLException e) {
-            throw new DbException(e);
+            throw new DbException(e.getMessage(), e);
         }
     }
 
@@ -49,36 +49,55 @@ public class ProductDBSQL implements ProductDB {
             throw new DbException("Nothing to add");
         }
 
-        String sql = "UPDATE product SET productId, name, description, price WHERE productId = " + product.getProductId();
+        String sql = "UPDATE product " +
+                     "SET name = ?, description = ?, price = ? " +
+                     "WHERE \"productId\" = ?";
 
-        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, product.getName());
+            statement.setString(2, product.getDescription());
+            statement.setDouble(3, product.getPrice());
+            statement.setInt(4, product.getProductId());
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DbException(e);
+            throw new DbException(e.getMessage(), e);
         }
 
     }
 
     @Override
     public void delete(int productId) {
-        String sql = "DELETE FROM product WHERE productId = " + productId;
+        String sql = "DELETE " +
+                     "FROM product " +
+                     "WHERE \"productId\" = ?";
 
-        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, productId);
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            throw new DbException(e);
+            throw new DbException(e.getMessage(), e);
         }
     }
 
     @Override
     public Product get(int productId) {
-        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery("SELECT * FROM product WHERE productId = " + productId);
-            String name = result.getString("name");
-            String description = result.getString("description");
-            double price = Double.parseDouble(result.getString("price"));
-            Product product = new Product(productId, name, description, price);
-            return product;
+        String sql = "SELECT * " +
+                     "FROM product " +
+                     "WHERE \"productId\" = ?";
+
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, productId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                String name = result.getString("name");
+                String description = result.getString("description");
+                double price = result.getDouble("price");
+                Product product = new Product(productId, name, description, price);
+                return product;
+            }
+            else {
+                throw new DbException("Failed to get Product");
+            }
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
         }
@@ -90,10 +109,10 @@ public class ProductDBSQL implements ProductDB {
         try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery("SELECT * FROM product");
             while (result.next()) {
-                int productId = Integer.parseInt(result.getString("productId"));
+                int productId = result.getInt("productId");
                 String name = result.getString("name");
                 String description = result.getString("description");
-                Double price = Double.parseDouble(result.getString("price"));
+                Double price = result.getDouble("price");
                 Product product = new Product(productId, name, description, price);
                 records.add(product);
             }

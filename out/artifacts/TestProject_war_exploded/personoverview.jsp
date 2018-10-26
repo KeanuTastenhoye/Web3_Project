@@ -34,7 +34,6 @@
                 </ul>
             </nav>
             <h2>User Overview</h2>
-
         </header>
         <main>
             <table>
@@ -42,13 +41,14 @@
                     <th>E-mail</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Delete</th>
                 </tr>
                 <c:forEach var="person" items="${persons}">
                 <tr>
                     <td><c:out value='${person.email}'/></td>
                     <td><c:out value='${person.firstName}'/></td>
                     <td><c:out value='${person.lastName}'/></td>
-                    <td><a href="Controller?action=deletePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
+                    <td><a href="Controller?action=removePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
                 </tr>
                 </c:forEach>
                 <caption>Users Overview</caption>

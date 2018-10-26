@@ -42,13 +42,14 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Delete</th>
             </tr>
             <c:forEach var="product" items="${records}">
             <tr>
                 <td><a href="Controller?action=editProduct&productId=<c:out value='${product.productId}'/>"><c:out value='${product.name}'/></a></td>
                 <td><c:out value='${product.description}'/></td>
                 <td><c:out value='${product.price}'/></td>
-                <td><a href="Controller?action=deleteProduct&productId=<c:out value='${product.productId}'/>"> Delete </a></td>
+                <td><a href="Controller?action=removeProduct&productId=<c:out value='${product.productId}'/>"> Delete </a></td>
             </tr>
             </c:forEach>
             <caption>Products Overview</caption>

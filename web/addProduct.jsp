@@ -50,7 +50,7 @@
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
                 <label for="productid">Product id</label>
-                <input type="number" id="productid" name="productid" required value="<c:out value='${productid}'/>">
+                <input type="number" id="productId" name="productId" required value="<c:out value='${productId}'/>">
             </p>
             <p>
                 <label for="name">Name</label>

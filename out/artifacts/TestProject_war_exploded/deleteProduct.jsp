@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8">
-    <title>Overview</title>
+    <title>Delete Product</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -22,7 +22,7 @@
                 <li>
                     <a href="Controller?action=personOverview">Users</a>
                 </li>
-                <li id="actual">
+                <li>
                     <a href="Controller?action=productOverview">Products</a>
                 </li>
                 <li>
@@ -33,27 +33,16 @@
                 </li>
             </ul>
         </nav>
-        <h2>Product Overview</h2>
-
+        <h2>Delete Product</h2>
     </header>
     <main>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Delete</th>
-            </tr>
-            <c:forEach var="product" items="${records}">
-            <tr>
-                <td><a href="Controller?action=editProduct&productId=<c:out value='${product.productId}'/>"><c:out value='${product.name}'/></a></td>
-                <td><c:out value='${product.description}'/></td>
-                <td><c:out value='${product.price}'/></td>
-                <td><a href="Controller?action=removeProduct&productId=<c:out value='${product.productId}'/>"> Delete </a></td>
-            </tr>
-            </c:forEach>
-            <caption>Products Overview</caption>
-        </table>
+        <p>Are you sure you want to delete this product?</p>
+            <form>
+                <a href="Controller?action=deleteProduct&productId=<c:out value='${product.productId}'/>"> Yes </a>
+            </form>
+            <form>
+                <a href="Controller?action=productOverview"> No </a>
+            </form>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
 </div>

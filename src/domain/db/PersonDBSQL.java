@@ -29,18 +29,18 @@ public class PersonDBSQL implements PersonDB {
             throw new DbException("Nothing to add");
         }
 
-        String sql = "INSERT INTO person (userid, email, password, firstName, lastName)"
-                   + "VALUES ('"
-                   + person.getUserid() + "', '"
-                   + person.getEmail() + "', '"
-                   + person.getPassword() + "', '"
-                   + person.getFirstName() + "', '"
-                   + person.getLastName() + ")";
+        String sql = "INSERT INTO person (userid, email, password, \"firstName\", \"lastName\")" +
+                     "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, person.getUserid());
+            statement.setString(2, person.getEmail());
+            statement.setString(3, person.getPassword());
+            statement.setString(4, person.getFirstName());
+            statement.setString(5, person.getLastName());
+            statement.execute();
         } catch (SQLException e) {
-            throw new DbException(e);
+            throw new DbException(e.getMessage(), e);
         }
     }
 
@@ -50,36 +50,56 @@ public class PersonDBSQL implements PersonDB {
             throw new DbException("Nothing to add");
         }
 
-        String sql = "UPDATE person SET userid, email, password, firstName, lastName WHERE userid = " + person.getUserid();
+        String sql = "UPDATE person " +
+                     "SET email = ?, password = ?, \"firstName\" = ?, \"lastName\" = ? " +
+                     "WHERE userid = ?";
 
-        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, person.getEmail());
+            statement.setString(2, person.getPassword());
+            statement.setString(3, person.getFirstName());
+            statement.setString(4, person.getLastName());
+            statement.setString(5, person.getUserid());
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DbException(e);
+            throw new DbException(e.getMessage(), e);
         }
     }
 
     @Override
     public void delete(String personId) {
-        String sql = "DELETE FROM person WHERE userid = " + personId;
+        String sql = "DELETE " +
+                     "FROM person " +
+                     "WHERE userid = ?";
 
-        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, personId);
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            throw new DbException(e);
+            throw new DbException(e.getMessage(), e);
         }
     }
 
     @Override
     public Person get(String personId) {
-        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery("SELECT * FROM person WHERE userid = " + personId);
-            String email = result.getString("email");
-            String password = result.getString("password");
-            String firstName = result.getString("firstName");
-            String lastName = result.getString("lastName");
-            Person person = new Person(personId, email, password, firstName, lastName);
-            return person;
+        String sql = "SELECT * " +
+                     "FROM person " +
+                     "WHERE userid = ?";
+
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, personId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                String email = result.getString("email");
+                String password = result.getString("password");
+                String firstName = result.getString("firstName");
+                String lastName = result.getString("lastName");
+                Person person = new Person(personId, email, password, firstName, lastName);
+                return person;
+            }
+            else {
+                throw new DbException("Failed to get person.");
+            }
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
         }
@@ -99,10 +119,10 @@ public class PersonDBSQL implements PersonDB {
                 Person person = new Person(userid, email, password, firstName, lastName);
                 persons.add(person);
             }
+            return persons;
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
         }
-        return persons;
     }
 
     @Override
