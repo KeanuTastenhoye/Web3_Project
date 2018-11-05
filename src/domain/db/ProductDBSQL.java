@@ -112,7 +112,7 @@ public class ProductDBSQL implements ProductDB {
                 int productId = result.getInt("productId");
                 String name = result.getString("name");
                 String description = result.getString("description");
-                Double price = result.getDouble("price");
+                double price = result.getDouble("price");
                 Product product = new Product(productId, name, description, price);
                 records.add(product);
             }

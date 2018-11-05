@@ -161,7 +161,7 @@ public class Controller extends HttpServlet {
         try {
             pe.setUserid(userid);
         }
-        catch (IllegalArgumentException e) {
+        catch (DomainException e) {
             errorsPerson.add(e.getMessage());
         }
     }
@@ -170,7 +170,7 @@ public class Controller extends HttpServlet {
         try {
             pe.setFirstName(firstName);
         }
-        catch (IllegalArgumentException e) {
+        catch (DomainException e) {
             errorsPerson.add(e.getMessage());
         }
     }
@@ -179,7 +179,7 @@ public class Controller extends HttpServlet {
         try {
             pe.setLastName(lastName);
         }
-        catch (IllegalArgumentException e) {
+        catch (DomainException e) {
             errorsPerson.add(e.getMessage());
         }
     }
@@ -188,7 +188,7 @@ public class Controller extends HttpServlet {
         try {
             pe.setEmail(email);
         }
-        catch (IllegalArgumentException e) {
+        catch (DomainException e) {
             errorsPerson.add(e.getMessage());
         }
     }
@@ -197,7 +197,7 @@ public class Controller extends HttpServlet {
         try {
             pe.setPassword(password);
         }
-        catch (IllegalArgumentException e) {
+        catch (DomainException e) {
             errorsPerson.add(e.getMessage());
         }
     }
