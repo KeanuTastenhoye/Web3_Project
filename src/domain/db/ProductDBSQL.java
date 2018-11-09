@@ -7,17 +7,14 @@ import java.util.List;
 import java.util.Properties;
 
 public class ProductDBSQL implements ProductDB {
-    private Properties properties = new Properties();
-    private String url = "jdbc:postgresql://databanken.ucll.be:51819/2TX33?currentSchema=r0667956";
+    private Properties properties;
+    private String url;
 
-    public ProductDBSQL() {
-        properties.setProperty("user", "r0667956");
-        properties.setProperty("password", "Ghia2016");
-        properties.setProperty("ssl", "true");
-        properties.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
-
+    public ProductDBSQL(Properties properties) {
         try {
             Class.forName("org.postgresql.Driver");
+            this.properties = properties;
+            this.url = properties.getProperty("url");
         } catch (ClassNotFoundException e) {
             throw new DbException(e.getMessage(), e);
         }
@@ -73,7 +70,7 @@ public class ProductDBSQL implements ProductDB {
 
         try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, productId);
-            statement.executeUpdate(sql);
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
         }

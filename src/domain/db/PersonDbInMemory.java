@@ -11,8 +11,25 @@ public class PersonDbInMemory implements PersonDB {
     private Map<String, Person> persons = new HashMap<>();
 
     public PersonDbInMemory () {
-        add(new Person("admin", "admin@ucll.be", "t", "Ad", "Ministrator"));
-        add(new Person("gebruiker", "gebruiker@ucll.be", "a", "Ge", "Bruiker"));
+        Person admin = new Person();
+        Person user = new Person();
+
+        admin.setUserid("admin");
+        admin.setFirstName("ad");
+        admin.setLastName("min");
+        admin.setEmail("ad@min.be");
+        admin.setPassword("a");
+        admin.setSeed(null);
+
+        user.setUserid("user");
+        user.setFirstName("us");
+        user.setLastName("er");
+        user.setEmail("us@er.be");
+        user.setPassword("u");
+        user.setSeed(null);
+
+        add(admin);
+        add(user);
     }
 
     @Override

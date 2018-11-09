@@ -3,17 +3,21 @@ package domain.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import domain.db.StringHasher;
+
 public class Person {
     private String userid;
     private String email;
-    private String password;
+    private String hashedPassword;
+    private byte[] seed;
     private String firstName;
     private String lastName;
 
-    public Person(String userid, String email, String password, String firstName, String lastName) {
+    public Person(String userid, String email, String password, byte[] seed, String firstName, String lastName) {
         setUserid(userid);
         setEmail(email);
-        setPassword(password);
+        setSeed(seed);
+        setHashedPassword(password);
         setFirstName(firstName);
         setLastName(lastName);
     }
@@ -21,8 +25,24 @@ public class Person {
     public Person() {
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUserid() { return userid; }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public byte[] getSeed(){  return this.seed; }
+
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
     public void setUserid(String userid) {
@@ -30,6 +50,20 @@ public class Person {
             throw new IllegalArgumentException("No userid given");
         }
         this.userid = userid;
+    }
+
+    public void setFirstName(String firstName) {
+        if(firstName.isEmpty()){
+            throw new IllegalArgumentException("No firstname given");
+        }
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        if(lastName.isEmpty()){
+            throw new IllegalArgumentException("No last name given");
+        }
+        this.lastName = lastName;
     }
 
     public void setEmail(String email) {
@@ -47,48 +81,37 @@ public class Person {
         this.email = email;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public boolean isCorrectPassword(String password) {
-        if(password.isEmpty()){
-            throw new IllegalArgumentException("No password given");
-        }
-        return getPassword().equals(password);
+    public void setSeed(byte[] seed){
+        this.seed = seed;
     }
 
     public void setPassword(String password) {
         if(password.isEmpty()){
             throw new IllegalArgumentException("No password given");
         }
-        this.password = password;
+        setSeed(StringHasher.getSeed());
+        setHashedPassword(hashPassword(password));
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        if(firstName.isEmpty()){
-            throw new IllegalArgumentException("No firstname given");
+    public void setHashedPassword(String hashedPassword){
+        if(hashedPassword.isEmpty()){
+            throw new IllegalArgumentException("No hashedPassword given.");
         }
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        if(lastName.isEmpty()){
-            throw new IllegalArgumentException("No last name given");
+        if(hashedPassword.length() != 128){
+            throw new IllegalArgumentException("HashedPassword is of wrong length. Length is " + hashedPassword.length());
         }
-        this.lastName = lastName;
+        this.hashedPassword = hashedPassword;
+    }
+
+    public String hashPassword(String password){
+        return StringHasher.sha512(password, getSeed());
+    }
+
+    public boolean isCorrectPassword(String password) {
+        if(password.isEmpty()){
+            throw new IllegalArgumentException("No password given");
+        }
+        return getHashedPassword().equals(hashPassword(password));
     }
 
     @Override

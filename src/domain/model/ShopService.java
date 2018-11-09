@@ -6,12 +6,16 @@ import domain.db.ProductDB;
 import domain.db.ProductDBSQL;
 
 import java.util.List;
+import java.util.Properties;
 
 public class ShopService {
-    private PersonDB personDb = new PersonDBSQL();
-    private ProductDB productDb = new ProductDBSQL();
+    private PersonDB personDb;
+    private ProductDB productDb;
 
-    public ShopService() { }
+    public ShopService (Properties properties) {
+        personDb = new PersonDBSQL(properties);
+        productDb = new ProductDBSQL(properties);
+    }
 
     private PersonDB getPersonDb() { return personDb; }
 

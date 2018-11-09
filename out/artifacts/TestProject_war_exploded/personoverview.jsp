@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,6 +43,7 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Delete</th>
+                    <th>Check Password</th>
                 </tr>
                 <c:forEach var="person" items="${persons}">
                 <tr>
@@ -49,6 +51,7 @@
                     <td><c:out value='${person.firstName}'/></td>
                     <td><c:out value='${person.lastName}'/></td>
                     <td><a href="Controller?action=removePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
+                    <td><a href="Controller?action=checkPassword&userid=${fn:escapeXml(person.userid)}"> Check </a></td>
                 </tr>
                 </c:forEach>
                 <caption>Users Overview</caption>

@@ -1,5 +1,6 @@
 package view;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,15 +17,32 @@ import domain.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @WebServlet("/Controller")
 public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final ShopService service;
+    private ShopService service;
 
     public Controller() {
         super();
-        service = new ShopService();
+    }
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+
+        ServletContext context = getServletContext();
+        Properties properties = new Properties();
+
+        properties.setProperty("user", context.getInitParameter("user"));
+        properties.setProperty("password", context.getInitParameter("password"));
+        properties.setProperty("ssl", context.getInitParameter("ssl"));
+        properties.setProperty("sslfactory", context.getInitParameter("sslfactory"));
+        properties.setProperty("currentSchema", context.getInitParameter("currentSchema"));
+        properties.setProperty("url", context.getInitParameter("url"));
+
+        service = new ShopService(properties);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -89,6 +107,14 @@ public class Controller extends HttpServlet {
 
             case "deletePerson":
                 deletePerson(request, response);
+            break;
+
+            case "checkPassword":
+                checkPassword(request, response);
+            break;
+
+            case "verifyPassword":
+                verifyPassword(request, response);
             break;
 
             default:
@@ -344,7 +370,6 @@ public class Controller extends HttpServlet {
         catch (NumberFormatException e) {
         }
         catch (DbException e) {
-            System.out.println("DBProduct exception");
         }
         productOverview(request, response);
     }
@@ -367,9 +392,31 @@ public class Controller extends HttpServlet {
             service.deletePerson(userid);
         }
         catch (DbException e) {
-            System.out.println("DBPerson exception");
         }
         personOverview(request, response);
+    }
+
+    private void checkPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userid = request.getParameter("userid");
+        try{
+            Person pe = service.getPerson(userid);
+            request.setAttribute("userid", userid);
+            request.getRequestDispatcher("checkPassword.jsp").forward(request, response);
+        }catch(DbException e){
+            personOverview(request, response);
+        }
+    }
+
+    private void verifyPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userid = request.getParameter("userid");
+        String password = request.getParameter("password");
+        try{
+            Person pe = service.getPerson(userid);
+            request.setAttribute("correct", pe.isCorrectPassword(password));
+            request.getRequestDispatcher("correctPassword.jsp").forward(request, response);
+        }catch(DbException e){
+            personOverview(request, response);
+        }
     }
 
 }
