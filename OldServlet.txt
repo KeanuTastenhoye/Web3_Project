@@ -18,13 +18,11 @@ import domain.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Enumeration;
 
 @WebServlet("/Controller")
 public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ShopService service;
-    private ControllerFactory controllerFactory = new ControllerFactory();
 
     public Controller() {
         super();
@@ -33,14 +31,17 @@ public class Controller extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ServletContext context = getServletContext();
 
+        ServletContext context = getServletContext();
         Properties properties = new Properties();
-        Enumeration<String> parameterNames = context.getInitParameterNames();
-        while (parameterNames.hasMoreElements()){
-            String propertyName = parameterNames.nextElement();
-            properties.setProperty(propertyName, context.getInitParameter(propertyName));
-        }
+
+        properties.setProperty("user", context.getInitParameter("user"));
+        properties.setProperty("password", context.getInitParameter("password"));
+        properties.setProperty("ssl", context.getInitParameter("ssl"));
+        properties.setProperty("sslfactory", context.getInitParameter("sslfactory"));
+        properties.setProperty("currentSchema", context.getInitParameter("currentSchema"));
+        properties.setProperty("url", context.getInitParameter("url"));
+
         service = new ShopService(properties);
     }
 
@@ -53,16 +54,6 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-        String destination = "index.jsp";
-        if (action != null) {
-            RequestHandler handler;
-            handler = controllerFactory.getController(action, service);
-            destination = handler.handleRequest(request, response);
-        }
-        request.getRequestDispatcher(destination).forward(request, response);
-
-        /*
         String action = request.getParameter("action");
 
         if (action == null) {
@@ -130,9 +121,8 @@ public class Controller extends HttpServlet {
                 naarIndex(request, response);
             break;
         }
-         */
     }
-/*
+
     private void naarIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
@@ -428,5 +418,5 @@ public class Controller extends HttpServlet {
             personOverview(request, response);
         }
     }
-*/
+
 }

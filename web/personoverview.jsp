@@ -6,7 +6,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta charset="UTF-8">
-<title>Overview</title>
+<title>personOverview</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -21,16 +21,16 @@
                         <a href="Controller">Home</a>
                     </li>
                     <li id="actual">
-                        <a href="Controller?action=personOverview">Users</a>
+                        <a href="Controller?action=PersonOverview">Users</a>
                     </li>
                     <li>
-                        <a href="Controller?action=productOverview">Products</a>
+                        <a href="Controller?action=ProductOverview">Products</a>
                     </li>
                     <li>
-                        <a href="Controller?action=naarSignUp">Sign up</a>
+                        <a href="Controller?action=NaarSignUp">Sign up</a>
                     </li>
                     <li>
-                        <a href="Controller?action=naarAddProduct">Add Product</a>
+                        <a href="Controller?action=NaarAddProduct">Add Product</a>
                     </li>
                 </ul>
             </nav>
@@ -50,8 +50,8 @@
                     <td><c:out value='${person.email}'/></td>
                     <td><c:out value='${person.firstName}'/></td>
                     <td><c:out value='${person.lastName}'/></td>
-                    <td><a href="Controller?action=removePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
-                    <td><a href="Controller?action=checkPassword&userid=${fn:escapeXml(person.userid)}"> Check </a></td>
+                    <td><a href="Controller?action=RemovePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
+                    <td><a href="Controller?action=CheckPassword&userid=${fn:escapeXml(person.userid)}"> Check </a></td>
                 </tr>
                 </c:forEach>
                 <caption>Users Overview</caption>

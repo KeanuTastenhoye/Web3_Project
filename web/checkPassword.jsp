@@ -20,23 +20,23 @@
                     <a href="Controller">Home</a>
                 </li>
                 <li>
-                    <a href="Controller?action=personOverview">Users</a>
+                    <a href="Controller?action=PersonOverview">Users</a>
                 </li>
                 <li>
-                    <a href="Controller?action=productOverview">Products</a>
+                    <a href="Controller?action=ProductOverview">Products</a>
                 </li>
                 <li>
-                    <a href="Controller?action=naarSignUp">Sign up</a>
+                    <a href="Controller?action=NaarSignUp">Sign up</a>
                 </li>
                 <li>
-                    <a href="Controller?action=naarAddProduct">Add Product</a>
+                    <a href="Controller?action=NaarAddProduct">Add Product</a>
                 </li>
             </ul>
         </nav>
         <h2>Check Password</h2>
     </header>
     <main>
-        <form method="post" action="Controller?action=verifyPassword&userid=<c:out value='${userid}'/>" novalidate="novalidate">
+        <form method="post" action="Controller?action=VerifyPassword&userid=<c:out value='${userid}'/>" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
                 <label for="Password">Password</label>

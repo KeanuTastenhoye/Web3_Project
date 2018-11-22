@@ -20,16 +20,16 @@
                     <a href="Controller">Home</a>
                 </li>
                 <li>
-                    <a href="Controller?action=personOverview">Users</a>
+                    <a href="Controller?action=PersonOverview">Users</a>
                 </li>
                 <li>
-                    <a href="Controller?action=productOverview">Products</a>
+                    <a href="Controller?action=ProductOverview">Products</a>
                 </li>
                 <li>
-                    <a href="Controller?action=naarSignUp">Sign up</a>
+                    <a href="Controller?action=NaarSignUp">Sign up</a>
                 </li>
                 <li>
-                    <a href="Controller?action=naarAddProduct">Add Product</a>
+                    <a href="Controller?action=NaarAddProduct">Add Product</a>
                 </li>
             </ul>
         </nav>
@@ -38,10 +38,10 @@
     <main>
         <p>Are you sure you want to delete this product?</p>
             <form>
-                <a href="Controller?action=deleteProduct&productId=<c:out value='${product.productId}'/>"> Yes </a>
+                <a href="Controller?action=DeleteProduct&productId=<c:out value='${product.productId}'/>"> Yes </a>
             </form>
             <form>
-                <a href="Controller?action=productOverview"> No </a>
+                <a href="Controller?action=ProductOverview"> No </a>
             </form>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
