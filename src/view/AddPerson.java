@@ -7,16 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import domain.model.Person;
-import domain.model.ShopService;
 import domain.model.DomainException;
+
 import domain.db.DbException;
 
 public class AddPerson extends RequestHandler {
 
     @Override
     public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
-        ShopService service = new ShopService(properties);
-
         String userid = request.getParameter("userid");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -34,7 +32,7 @@ public class AddPerson extends RequestHandler {
 
         try {
             if (errorsPerson.isEmpty()) {
-                service.addPerson(pe);
+                getService().addPerson(pe);
             }
         }
         catch (DbException e) {
@@ -42,7 +40,7 @@ public class AddPerson extends RequestHandler {
         }
 
         if (errorsPerson.isEmpty()) {
-            return PersonOverview;
+            return "Controller?action=PersonOverview";
         }
         else {
             request.setAttribute("errorsPerson", errorsPerson);
@@ -50,7 +48,7 @@ public class AddPerson extends RequestHandler {
             request.setAttribute("firstName", firstName);
             request.setAttribute("lastName", lastName);
             request.setAttribute("email", email);
-            return NaarSignUp;
+            return "Controller?action=NaarSignUp";
         }
     }
 

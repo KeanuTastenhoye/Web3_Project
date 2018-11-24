@@ -60,7 +60,12 @@ public class Controller extends HttpServlet {
             handler = controllerFactory.getController(action, service);
             destination = handler.handleRequest(request, response);
         }
-        request.getRequestDispatcher(destination).forward(request, response);
+        if (destination.startsWith("Controller?")) {
+            response.sendRedirect(destination);
+        }
+        else {
+            request.getRequestDispatcher(destination).forward(request, response);
+        }
 
         /*
         String action = request.getParameter("action");

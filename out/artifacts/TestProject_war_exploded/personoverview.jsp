@@ -50,8 +50,8 @@
                     <td><c:out value='${person.email}'/></td>
                     <td><c:out value='${person.firstName}'/></td>
                     <td><c:out value='${person.lastName}'/></td>
-                    <td><a href="Controller?action=removePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
-                    <td><a href="Controller?action=checkPassword&userid=${fn:escapeXml(person.userid)}"> Check </a></td>
+                    <td><a href="Controller?action=RemovePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
+                    <td><a href="Controller?action=CheckPassword&userid=${fn:escapeXml(person.userid)}"> Check </a></td>
                 </tr>
                 </c:forEach>
                 <caption>Users Overview</caption>

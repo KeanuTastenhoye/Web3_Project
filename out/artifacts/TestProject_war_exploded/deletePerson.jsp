@@ -38,10 +38,10 @@
     <main>
         <p>Are you sure you want to delete this person?</p>
             <form>
-                <a href="Controller?action=deletePerson&userid=<c:out value='${person.userid}'/>"> Yes </a>
+                <a href="Controller?action=DeletePerson&userid=<c:out value='${person.userid}'/>"> Yes </a>
             </form>
             <form>
-                <a href="Controller?action=personOverview"> No </a>
+                <a href="Controller?action=PersonOverview"> No </a>
             </form>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>

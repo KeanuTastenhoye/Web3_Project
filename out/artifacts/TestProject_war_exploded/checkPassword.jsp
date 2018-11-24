@@ -36,7 +36,7 @@
         <h2>Check Password</h2>
     </header>
     <main>
-        <form method="post" action="Controller?action=verifyPassword&userid=<c:out value='${userid}'/>" novalidate="novalidate">
+        <form method="post" action="Controller?action=VerifyPassword&userid=<c:out value='${userid}'/>" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
                 <label for="Password">Password</label>

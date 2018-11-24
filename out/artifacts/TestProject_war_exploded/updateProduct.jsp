@@ -46,7 +46,7 @@
                 </ul>
             </div>
         </c:if>
-        <form method="post" action="Controller?action=updateProduct&productId=<c:out value='${product.productId}'/>" novalidate="novalidate">
+        <form method="post" action="Controller?action=UpdateProduct&productId=<c:out value='${product.productId}'/>" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
             <p>
                 <label for="name">Name</label>

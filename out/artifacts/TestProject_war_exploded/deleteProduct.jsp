@@ -38,10 +38,10 @@
     <main>
         <p>Are you sure you want to delete this product?</p>
             <form>
-                <a href="Controller?action=deleteProduct&productId=<c:out value='${product.productId}'/>"> Yes </a>
+                <a href="Controller?action=DeleteProduct&productId=<c:out value='${product.productId}'/>"> Yes </a>
             </form>
             <form>
-                <a href="Controller?action=productOverview"> No </a>
+                <a href="Controller?action=ProductOverview"> No </a>
             </form>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
