@@ -25,6 +25,9 @@
                     <li>
                         <a href="Controller?action=ProductOverview">Products</a>
                     </li>
+                    <li>
+                        <a href="Controller?action=CartOverview">Cart overview</a>
+                    </li>
                     <li id="actual">
                         <a href="Controller?action=NaarSignUp">Sign up</a>
                     </li>

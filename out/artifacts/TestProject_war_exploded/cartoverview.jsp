@@ -1,11 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8">
-    <title>Check password</title>
+    <title>Cart Overview</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -25,7 +25,7 @@
                 <li>
                     <a href="Controller?action=ProductOverview">Products</a>
                 </li>
-                <li>
+                <li id="actual">
                     <a href="Controller?action=CartOverview">Cart overview</a>
                 </li>
                 <li>
@@ -36,19 +36,23 @@
                 </li>
             </ul>
         </nav>
-        <h2>Check Password</h2>
+        <h2>Cart Overview</h2>
     </header>
     <main>
-        <form method="post" action="Controller?action=VerifyPassword&userid=<c:out value='${userid}'/>" novalidate="novalidate">
-            <!-- novalidate in order to be able to run tests correctly -->
-            <p>
-                <label for="Password">Password</label>
-                <input type="password" id="password" name="password" required value="">
-            </p>
-            <p>
-                <input type="submit" id="submit" value="Check"/>
-            </p>
-        </form>
+        <p>Following items have been added to the shopping cart!</p>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+
+            <tr>
+                <td><c:out value='${product.name}'/></td>
+                <td><c:out value='${product.description}'/></td>
+                <td><c:out value='${product.price}'/></td>
+            </tr>
+        </table>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>
 </div>

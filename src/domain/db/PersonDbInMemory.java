@@ -19,14 +19,12 @@ public class PersonDbInMemory implements PersonDB {
         admin.setLastName("min");
         admin.setEmail("ad@min.be");
         admin.setPassword("a");
-        admin.setSeed(null);
 
         user.setUserid("user");
         user.setFirstName("us");
         user.setLastName("er");
         user.setEmail("us@er.be");
         user.setPassword("u");
-        user.setSeed(null);
 
         add(admin);
         add(user);

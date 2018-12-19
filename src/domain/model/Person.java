@@ -9,14 +9,12 @@ public class Person {
     private String userid;
     private String email;
     private String hashedPassword;
-    private byte[] seed;
     private String firstName;
     private String lastName;
 
-    public Person(String userid, String email, String password, byte[] seed, String firstName, String lastName) {
+    public Person(String userid, String email, String password, String firstName, String lastName) {
         setUserid(userid);
         setEmail(email);
-        setSeed(seed);
         setHashedPassword(password);
         setFirstName(firstName);
         setLastName(lastName);
@@ -38,8 +36,6 @@ public class Person {
     public String getEmail() {
         return email;
     }
-
-    public byte[] getSeed(){  return this.seed; }
 
     public String getHashedPassword() {
         return hashedPassword;
@@ -81,15 +77,10 @@ public class Person {
         this.email = email;
     }
 
-    public void setSeed(byte[] seed){
-        this.seed = seed;
-    }
-
     public void setPassword(String password) {
         if(password.isEmpty()){
             throw new IllegalArgumentException("No password given");
         }
-        setSeed(StringHasher.getSeed());
         setHashedPassword(hashPassword(password));
     }
 
@@ -104,7 +95,7 @@ public class Person {
     }
 
     public String hashPassword(String password){
-        return StringHasher.sha512(password, getSeed());
+        return StringHasher.sha512(password);
     }
 
     public boolean isCorrectPassword(String password) {

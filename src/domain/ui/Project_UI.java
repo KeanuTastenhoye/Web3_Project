@@ -44,12 +44,11 @@ public class Project_UI {
             String userid = result.getString("userid");
             String email = result.getString("email");
             String password = result.getString("password");
-            byte[] seed = result.getBytes("seed");
             String firstName = result.getString("firstName");
             String lastName = result.getString("lastName");
 
             try {    // validation of data stored in database
-                Person person = new Person(userid, email, password, seed, firstName, lastName);
+                Person person = new Person(userid, email, password, firstName, lastName);
                 System.out.println(person.toString());
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());

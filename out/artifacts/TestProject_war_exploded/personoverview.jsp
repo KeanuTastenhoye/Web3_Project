@@ -27,6 +27,9 @@
                         <a href="Controller?action=ProductOverview">Products</a>
                     </li>
                     <li>
+                        <a href="Controller?action=CartOverview">Cart overview</a>
+                    </li>
+                    <li>
                         <a href="Controller?action=NaarSignUp">Sign up</a>
                     </li>
                     <li>
@@ -37,8 +40,24 @@
             <h2>User Overview</h2>
         </header>
         <main>
+
+            <form action="Controller?action=Sort" method="post">
+                <input type="radio" name="option" value="">
+                <br/>
+                <input type="radio" name="option" value="User id"> User id
+                <br/>
+                <input type="radio" name="option" value="Email"> Email
+                <br/>
+                <input type="radio" name="option" value="First Name"> First name
+                <br/>
+                <input type="radio" name="option" value="Last Name"> Last name
+                <br/>
+
+                <input type="submit" name="sort" value="Sorteer users">
+            </form>
             <table>
                 <tr>
+                    <th>User id</th>
                     <th>E-mail</th>
                     <th>First Name</th>
                     <th>Last Name</th>
@@ -47,6 +66,7 @@
                 </tr>
                 <c:forEach var="person" items="${persons}">
                 <tr>
+                    <td><c:out value='${person.userid}'/></td>
                     <td><c:out value='${person.email}'/></td>
                     <td><c:out value='${person.firstName}'/></td>
                     <td><c:out value='${person.lastName}'/></td>

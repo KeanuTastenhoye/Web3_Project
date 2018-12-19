@@ -26,16 +26,15 @@ public class PersonDBSQL implements PersonDB {
             throw new DbException("Nothing to add");
         }
 
-        String sql = "INSERT INTO person (userid, email, password, seed, \"firstName\", \"lastName\")" +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO person (userid, email, password, \"firstName\", \"lastName\")" +
+                     "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, person.getUserid());
             statement.setString(2, person.getEmail());
             statement.setString(3, person.getHashedPassword());
-            statement.setBytes(4, person.getSeed());
-            statement.setString(5, person.getFirstName());
-            statement.setString(6, person.getLastName());
+            statement.setString(4, person.getFirstName());
+            statement.setString(5, person.getLastName());
             statement.execute();
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
@@ -49,16 +48,15 @@ public class PersonDBSQL implements PersonDB {
         }
 
         String sql = "UPDATE person " +
-                     "SET email = ?, password = ?, seed = ?, \"firstName\" = ?, \"lastName\" = ? " +
+                     "SET email = ?, password = ?, \"firstName\" = ?, \"lastName\" = ? " +
                      "WHERE userid = ?";
 
         try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, person.getEmail());
             statement.setString(2, person.getHashedPassword());
-            statement.setBytes(3, person.getSeed());
-            statement.setString(4, person.getFirstName());
-            statement.setString(5, person.getLastName());
-            statement.setString(6, person.getUserid());
+            statement.setString(3, person.getFirstName());
+            statement.setString(4, person.getLastName());
+            statement.setString(5, person.getUserid());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
@@ -91,10 +89,9 @@ public class PersonDBSQL implements PersonDB {
             if (result.next()) {
                 String email = result.getString("email");
                 String password = result.getString("password");
-                byte[] seed = result.getBytes("seed");
                 String firstName = result.getString("firstName");
                 String lastName = result.getString("lastName");
-                Person person = new Person(personId, email, password, seed, firstName, lastName);
+                Person person = new Person(personId, email, password, firstName, lastName);
                 return person;
             }
             else {
@@ -114,10 +111,9 @@ public class PersonDBSQL implements PersonDB {
                 String userid = result.getString("userid");
                 String email = result.getString("email");
                 String password = result.getString("password");
-                byte[] seed = result.getBytes("seed");
                 String firstName = result.getString("firstName");
                 String lastName = result.getString("lastName");
-                Person person = new Person(userid, email, password, seed, firstName, lastName);
+                Person person = new Person(userid, email, password, firstName, lastName);
                 persons.add(person);
             }
             return persons;

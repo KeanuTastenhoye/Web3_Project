@@ -26,6 +26,9 @@
                     <a href="Controller?action=ProductOverview">Products</a>
                 </li>
                 <li>
+                    <a href="Controller?action=CartOverview">Cart overview</a>
+                </li>
+                <li>
                     <a href="Controller?action=NaarSignUp">Sign up</a>
                 </li>
                 <li>
@@ -43,6 +46,7 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>Delete</th>
+                <th>Add to cart</th>
             </tr>
             <c:forEach var="product" items="${records}">
             <tr>
@@ -50,6 +54,7 @@
                 <td><c:out value='${product.description}'/></td>
                 <td><c:out value='${product.price}'/></td>
                 <td><a href="Controller?action=RemoveProduct&productId=<c:out value='${product.productId}'/>"> Delete </a></td>
+                <td><a href="Controller?action=AddToCart&productId=<c:out value='${product.productId}'/>"> Add to cart </a></td>
             </tr>
             </c:forEach>
             <caption>Products Overview</caption>
