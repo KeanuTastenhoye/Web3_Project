@@ -5,6 +5,7 @@ import domain.db.PersonDBSQL;
 import domain.db.ProductDB;
 import domain.db.ProductDBSQL;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,7 +26,7 @@ public class ShopService {
 
     public Product getProduct(int productId) { return getProductDb().get(productId); }
 
-    public List<Person> getPersons() { return getPersonDb().getAll(); }
+    public List<Person> getPersons(String order) { return getPersonDb().getAll(order); }
 
     public List<Product> getProducts() { return getProductDb().getAll(); }
 
@@ -40,5 +41,7 @@ public class ShopService {
     public void deletePerson(String id) { getPersonDb().delete(id); }
 
     public void deleteProduct(int id) { getProductDb().delete(id); }
+
+    public ArrayList<String> getHeaders() { return getPersonDb().getHeaders(); }
 
 }

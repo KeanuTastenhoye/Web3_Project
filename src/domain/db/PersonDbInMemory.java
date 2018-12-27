@@ -39,7 +39,7 @@ public class PersonDbInMemory implements PersonDB {
     }
 
     @Override
-    public List<Person> getAll(){
+    public List<Person> getAll(String order){
         return new ArrayList<Person>(persons.values());
     }
 
@@ -76,5 +76,10 @@ public class PersonDbInMemory implements PersonDB {
     @Override
     public int getNumberOfPersons() {
         return persons.size();
+    }
+
+    @Override
+    public ArrayList<String> getHeaders() {
+        return null;
     }
 }

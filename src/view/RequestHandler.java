@@ -16,6 +16,7 @@ public abstract class RequestHandler {
 
     public ShopService getService() { return service; }
 
+    /*
     public String giveCookieWithName(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null)
@@ -25,5 +26,6 @@ public abstract class RequestHandler {
         return "";
 
     }
+    */
 
 }

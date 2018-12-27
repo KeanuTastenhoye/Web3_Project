@@ -2,12 +2,13 @@ package domain.db;
 
 import domain.model.Person;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface PersonDB {
     Person get(String personId);
 
-    List<Person> getAll();
+    List<Person> getAll(String order);
 
     void add(Person person);
 
@@ -16,4 +17,6 @@ public interface PersonDB {
     void delete(String personId);
 
     int getNumberOfPersons();
+
+    ArrayList<String> getHeaders();
 }

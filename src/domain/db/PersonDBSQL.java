@@ -103,10 +103,28 @@ public class PersonDBSQL implements PersonDB {
     }
 
     @Override
-    public List<Person> getAll() {
+    public List<Person> getAll(String order) {
         List<Person> persons = new ArrayList<Person>();
+        String sql = "Select * " +
+                     "From person ";
+
+        if (!order.equals("")) {
+            if (order.equals("userid")) {
+                sql += "Order By userid";
+            }
+            else if (order.equals("email")) {
+                sql += "Order By email";
+            }
+            else if (order.equals("firstName")) {
+                sql += "Order By \"firstName\"";
+            }
+            else if (order.equals("lastName")) {
+                sql += "Order By \"lastName\"";
+            }
+        }
+
         try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery("SELECT * FROM person");
+            ResultSet result = statement.executeQuery(sql);
             while (result.next()) {
                 String userid = result.getString("userid");
                 String email = result.getString("email");
@@ -124,8 +142,36 @@ public class PersonDBSQL implements PersonDB {
 
     @Override
     public int getNumberOfPersons() {
-        List<Person> personen = new ArrayList<Person>();
-        personen = getAll();
-        return personen.size();
+        int amount = 0;
+
+        try (Connection connection = DriverManager.getConnection(url, properties); Statement statement = connection.createStatement()) {
+            //still returns error fix needed
+            ResultSet result = statement.executeQuery("SELECT count(userid) from person");
+            while(result.next()){
+                amount = Integer.parseInt(result.getString("amount"));
+            }
+        } catch (SQLException e){
+            throw new DbException(e.getMessage(), e);
+        }
+        return amount;
+    }
+
+    @Override
+    public ArrayList<String> getHeaders() {
+        ArrayList<String> res = new ArrayList<>();
+        String sql = "Select * From person";
+        try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet result = statement.executeQuery();
+            ResultSetMetaData rsmd = result.getMetaData();
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                res.add(rsmd.getColumnName(i));
+            }
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage(), e);
+        }
+        if (res.contains("password")) {
+            res.remove("password");
+        }
+        return res;
     }
 }

@@ -42,18 +42,14 @@
         <main>
 
             <form action="Controller?action=Sort" method="post">
-                <input type="radio" name="option" value="">
-                <br/>
-                <input type="radio" name="option" value="User id"> User id
-                <br/>
-                <input type="radio" name="option" value="Email"> Email
-                <br/>
-                <input type="radio" name="option" value="First Name"> First name
-                <br/>
-                <input type="radio" name="option" value="Last Name"> Last name
-                <br/>
-
-                <input type="submit" name="sort" value="Sorteer users">
+                <p>Sorteren op:</p>
+                <select name="sort">
+                    <option name="leeg" value=""> </option>
+                    <c:forEach var="head" items="${headers}">
+                        <option name="${head}" value="${head}"> ${head} </option>
+                    </c:forEach>
+                    <input type="submit" value="Sort">
+                </select>
             </form>
             <table>
                 <tr>

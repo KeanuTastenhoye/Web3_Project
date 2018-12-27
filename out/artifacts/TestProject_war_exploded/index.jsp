@@ -45,24 +45,29 @@
 		aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
 		qui ratione voluptatem sequi nesciunt.
 
-		<article>
-			<br/>
-			<p> Do you want to see a quote? </p>
-			<form action="Controller?action=Quote" method="post">
-				<input type="radio" name="quote" value="Yes">
-				Yes
-				<input type="radio" name="quote" value="No">
-				No
-				<br/>
-				<input type="submit" name="quote" value="Submit">
-			</form>
-		</article>
+			<form action="Controller?action=Quote" method="post" novalidate="novalidate">
+				<br>
 
-		<c:if test="${quote == 'Yes'}">
-			<div>
-				<p>Greatness from small beginnings</p>
-			</div>
-			</c:if>
+				<p>Do You want to see a quote?</p>
+
+				<input type="radio" name="choice" value="Yes"
+					<c:if test="${quote != null}">
+						checked="checked"
+					</c:if>>
+					Yes
+
+				<input type="radio" name="choice" value="No"
+					<c:if test="${quote == null}">
+					   checked="checked"
+					</c:if>>
+					No
+
+				<br/>
+
+				<input type="submit" id="submit" value="Submit">
+			</form>
+
+		<p> ${quote} </p>
 		</main>
 
 		<footer> &copy; Webontwikkeling 3, UC Leuven-Limburg </footer>

@@ -8,19 +8,11 @@ public class Quote extends RequestHandler {
 
     @Override
     public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
-        String quote = request.getParameter("quote");
-        Cookie cookieQuote = new Cookie("quote", quote);
+        String choice = request.getParameter("choice");
+        Cookie cookie = new Cookie("quote", choice);
 
-        response.addCookie(cookieQuote);
+        response.addCookie(cookie);
 
-        if (cookieQuote.getValue().equals("Yes")) {
-            request.setAttribute("quote", "Yes");
-            return "Controller?action=NaarIndex";
-        }
-        else {
-            request.setAttribute("quote", "No");
-            return "Controller?action=NaarIndex";
-        }
+        return "Controller?action=NaarIndex";
     }
-
 }
