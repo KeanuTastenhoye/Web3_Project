@@ -28,12 +28,14 @@
 					<li>
 						<a href="Controller?action=CartOverview">Cart overview</a>
 					</li>
-					<li>
-						<a href="Controller?action=NaarSignUp">Sign up</a>
-					</li>
-					<li>
-						<a href="Controller?action=NaarAddProduct">Add Product</a>
-					</li>
+					<c:if test="${role != null && role == 'ADMIN'}">
+						<li>
+							<a href="Controller?action=NaarSignUp">Sign up</a>
+						</li>
+						<li>
+							<a href="Controller?action=NaarAddProduct">Add Product</a>
+						</li>
+					</c:if>
 				</ul>
 			</nav>
 			<h2>Home</h2>
@@ -48,7 +50,7 @@
 			<form action="Controller?action=Quote" method="post" novalidate="novalidate">
 				<br>
 
-				<p>Do You want to see a quote?</p>
+				<p>Do you want to see a quote?</p>
 
 				<input type="radio" name="choice" value="Yes"
 					<c:if test="${quote != null}">
@@ -67,7 +69,32 @@
 				<input type="submit" id="submit" value="Submit">
 			</form>
 
-		<p> ${quote} </p>
+			<p> ${quote} </p>
+
+			<c:if test="${person == null}">
+				<form action="Controller?action=Login" method="post" novalidate="novalidate">
+					<label for="userid">UserId: </label>
+					<input type="text" name="userid" id="userid" placeholder="userid">
+
+					<br>
+
+					<label for="password">Password: </label>
+					<input type="password" name="password" id="password">
+
+					<br>
+
+					<input type="submit" value="Log in">
+				</form>
+			</c:if>
+			<c:if test="${person != null}">
+				<br>
+
+				<p>Welcome ${person}!</p>
+
+				<form action="Controller?action=Logout" method="post" novalidate="novalidate">
+					<input type="submit" value="Log out">
+				</form>
+			</c:if>
 		</main>
 
 		<footer> &copy; Webontwikkeling 3, UC Leuven-Limburg </footer>

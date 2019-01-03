@@ -21,7 +21,7 @@ public class ProductDBSQL implements ProductDB {
     }
 
     @Override
-    public void add(Product product) { //Elk item krijgt 0 als id --> error
+    public void add(Product product) {
         if (product == null) {
             throw new DbException("Nothing to add");
         }

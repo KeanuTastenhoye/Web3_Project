@@ -28,12 +28,14 @@
                 <li>
                     <a href="Controller?action=CartOverview">Cart overview</a>
                 </li>
-                <li>
-                    <a href="Controller?action=NaarSignUp">Sign up</a>
-                </li>
-                <li>
-                    <a href="Controller?action=NaarAddProduct">Add Product</a>
-                </li>
+                <c:if test="${role != null && role == 'ADMIN'}">
+                    <li>
+                        <a href="Controller?action=NaarSignUp">Sign up</a>
+                    </li>
+                    <li>
+                        <a href="Controller?action=NaarAddProduct">Add Product</a>
+                    </li>
+                </c:if>
             </ul>
         </nav>
         <h2>Product Overview</h2>
@@ -45,15 +47,19 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
-                <th>Delete</th>
+                <c:if test="${role != null && role == 'ADMIN'}">
+                    <th>Delete</th>
+                </c:if>
                 <th>Add to cart</th>
             </tr>
             <c:forEach var="product" items="${records}">
             <tr>
-                <td><a href="Controller?action=EditProduct&productId=<c:out value='${product.productId}'/>"><c:out value='${product.name}'/></a></td>
+                <td><c:if test="${role != null && role == 'ADMIN'}"><a href="Controller?action=EditProduct&productId=<c:out value='${product.productId}'/>"></c:if><c:out value='${product.name}'/></a></td>
                 <td><c:out value='${product.description}'/></td>
                 <td><c:out value='${product.price}'/></td>
-                <td><a href="Controller?action=RemoveProduct&productId=<c:out value='${product.productId}'/>"> Delete </a></td>
+                <c:if test="${role != null && role == 'ADMIN'}">
+                    <td><a href="Controller?action=RemoveProduct&productId=<c:out value='${product.productId}'/>"> Delete </a></td>
+                </c:if>
                 <td><a href="Controller?action=AddToCart&productId=<c:out value='${product.productId}'/>"> Add to cart </a></td>
             </tr>
             </c:forEach>

@@ -28,12 +28,14 @@
                 <li>
                     <a href="Controller?action=CartOverview">Cart overview</a>
                 </li>
-                <li>
-                    <a href="Controller?action=NaarSignUp">Sign up</a>
-                </li>
-                <li>
-                    <a href="Controller?action=NaarAddProduct">Add Product</a>
-                </li>
+                <c:if test="${role != null && role == 'ADMIN'}">
+                    <li>
+                        <a href="Controller?action=NaarSignUp">Sign up</a>
+                    </li>
+                    <li>
+                        <a href="Controller?action=NaarAddProduct">Add Product</a>
+                    </li>
+                </c:if>
             </ul>
         </nav>
         <h2>Delete Product</h2>

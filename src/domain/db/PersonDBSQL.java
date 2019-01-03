@@ -1,6 +1,8 @@
 package domain.db;
 
 import domain.model.Person;
+import domain.model.Role;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +81,7 @@ public class PersonDBSQL implements PersonDB {
 
     @Override
     public Person get(String personId) {
-        String sql = "SELECT * " +
+        String sql = "SELECT userid, email, \"firstName\", \"lastName\", password, admin " +
                      "FROM person " +
                      "WHERE userid = ?";
 
@@ -91,7 +93,11 @@ public class PersonDBSQL implements PersonDB {
                 String password = result.getString("password");
                 String firstName = result.getString("firstName");
                 String lastName = result.getString("lastName");
-                Person person = new Person(personId, email, password, firstName, lastName);
+                Role r = Role.USER;
+                if (result.getString("admin") != null && result.getString("admin").equals("t")) {
+                    r = Role.ADMIN;
+                }
+                Person person = new Person(personId, email, password, firstName, lastName, r);
                 return person;
             }
             else {
@@ -105,7 +111,7 @@ public class PersonDBSQL implements PersonDB {
     @Override
     public List<Person> getAll(String order) {
         List<Person> persons = new ArrayList<Person>();
-        String sql = "Select * " +
+        String sql = "Select userid, email, \"firstName\", \"lastName\", password " +
                      "From person ";
 
         if (!order.equals("")) {
@@ -171,6 +177,9 @@ public class PersonDBSQL implements PersonDB {
         }
         if (res.contains("password")) {
             res.remove("password");
+        }
+        if (res.contains("admin")) {
+            res.remove("admin");
         }
         return res;
     }

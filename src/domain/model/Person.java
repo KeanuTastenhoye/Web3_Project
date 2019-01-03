@@ -11,6 +11,7 @@ public class Person {
     private String hashedPassword;
     private String firstName;
     private String lastName;
+    private Role role = Role.USER;
 
     public Person(String userid, String email, String password, String firstName, String lastName) {
         setUserid(userid);
@@ -18,6 +19,15 @@ public class Person {
         setHashedPassword(password);
         setFirstName(firstName);
         setLastName(lastName);
+    }
+
+    public Person(String userid, String email, String password, String firstName, String lastName, Role role) {
+        setUserid(userid);
+        setEmail(email);
+        setHashedPassword(password);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setRole(role);
     }
 
     public Person() {
@@ -40,6 +50,8 @@ public class Person {
     public String getHashedPassword() {
         return hashedPassword;
     }
+
+    public Role getRole() { return role; }
 
     public void setUserid(String userid) {
         if(userid.isEmpty()){
@@ -103,6 +115,10 @@ public class Person {
             throw new IllegalArgumentException("No password given");
         }
         return getHashedPassword().equals(hashPassword(password));
+    }
+
+    private void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

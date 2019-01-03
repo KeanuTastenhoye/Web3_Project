@@ -16,16 +16,4 @@ public abstract class RequestHandler {
 
     public ShopService getService() { return service; }
 
-    /*
-    public String giveCookieWithName(HttpServletRequest request, String name) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null)
-            for (Cookie cookie : cookies)
-                if (cookie.getName().equals(name))
-                    return cookie.getValue();
-        return "";
-
-    }
-    */
-
 }

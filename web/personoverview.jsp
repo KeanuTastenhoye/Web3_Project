@@ -29,12 +29,14 @@
                     <li>
                         <a href="Controller?action=CartOverview">Cart overview</a>
                     </li>
-                    <li>
-                        <a href="Controller?action=NaarSignUp">Sign up</a>
-                    </li>
-                    <li>
-                        <a href="Controller?action=NaarAddProduct">Add Product</a>
-                    </li>
+                    <c:if test="${role != null && role == 'ADMIN'}">
+                        <li>
+                            <a href="Controller?action=NaarSignUp">Sign up</a>
+                        </li>
+                        <li>
+                            <a href="Controller?action=NaarAddProduct">Add Product</a>
+                        </li>
+                    </c:if>
                 </ul>
             </nav>
             <h2>User Overview</h2>
@@ -57,8 +59,10 @@
                     <th>E-mail</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>Delete</th>
-                    <th>Check Password</th>
+                    <c:if test="${role != null && role == 'ADMIN'}">
+                        <th>Delete</th>
+                        <th>Check Password</th>
+                    </c:if>
                 </tr>
                 <c:forEach var="person" items="${persons}">
                 <tr>
@@ -66,8 +70,10 @@
                     <td><c:out value='${person.email}'/></td>
                     <td><c:out value='${person.firstName}'/></td>
                     <td><c:out value='${person.lastName}'/></td>
-                    <td><a href="Controller?action=RemovePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
-                    <td><a href="Controller?action=CheckPassword&userid=${fn:escapeXml(person.userid)}"> Check </a></td>
+                    <c:if test="${role != null && role == 'ADMIN'}">
+                        <td><a href="Controller?action=RemovePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
+                        <td><a href="Controller?action=CheckPassword&userid=${fn:escapeXml(person.userid)}"> Check </a></td>
+                    </c:if>
                 </tr>
                 </c:forEach>
                 <caption>Users Overview</caption>
