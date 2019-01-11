@@ -83,16 +83,16 @@
 
 					<br>
 
-					<input type="submit" value="Log in">
+					<input type="submit" id="logIn" value="Log in">
 				</form>
 			</c:if>
 			<c:if test="${person != null}">
 				<br>
 
-				<p>Welcome ${person}!</p>
+				<p>Welcome, ${person}.</p>
 
 				<form action="Controller?action=Logout" method="post" novalidate="novalidate">
-					<input type="submit" value="Log out">
+					<input type="submit" id="logOut" value="Log out">
 				</form>
 			</c:if>
 		</main>

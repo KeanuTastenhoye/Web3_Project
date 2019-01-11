@@ -16,8 +16,8 @@ public class Project_UI {
     public static void main(String[] args) throws SQLException {
         Properties properties = new Properties();
         String url = "jdbc:postgresql://databanken.ucll.be:51819/2TX33?currentSchema=r0667956";
-        properties.setProperty("user", "r0667956");
-        properties.setProperty("password", "Ghia2016");
+        properties.setProperty("user", "local_r0667956");
+        properties.setProperty("password", "§hV)JJ;)gùYmTBg");
         properties.setProperty("ssl", "true");
         properties.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
         //properties.setProperty("sslmode","prefer");

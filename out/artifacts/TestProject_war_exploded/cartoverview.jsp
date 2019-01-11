@@ -54,6 +54,7 @@
                 <td><c:out value='${product.description}'/></td>
                 <td><c:out value='${product.price}'/></td>
             </tr>
+            
         </table>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>

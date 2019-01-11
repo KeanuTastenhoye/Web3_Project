@@ -50,6 +50,7 @@
                 <c:if test="${role != null && role == 'ADMIN'}">
                     <th>Delete</th>
                 </c:if>
+                <th>Amount</th>
                 <th>Add to cart</th>
             </tr>
             <c:forEach var="product" items="${records}">
@@ -60,7 +61,13 @@
                 <c:if test="${role != null && role == 'ADMIN'}">
                     <td><a href="Controller?action=RemoveProduct&productId=<c:out value='${product.productId}'/>"> Delete </a></td>
                 </c:if>
-                <td><a href="Controller?action=AddToCart&productId=<c:out value='${product.productId}'/>"> Add to cart </a></td>
+                <td>
+                    <form method="post" action="Controller?action=AddToCart" novalidate="novalidate">
+                        <input type="hidden" id="productId" name="productId" required value="<c:out value='${product.productId}'/>">
+                        <input type="number" id="amount" name="amount" value="<c:out value='${number}'/>">
+                        <input type="submit" id="addToCart" name="addToCart" value="Add To Cart">
+                    </form>
+                </td>
             </tr>
             </c:forEach>
             <caption>Products Overview</caption>
