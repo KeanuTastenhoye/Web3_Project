@@ -28,8 +28,8 @@ public class PersonDBSQL implements PersonDB {
             throw new DbException("Nothing to add");
         }
 
-        String sql = "INSERT INTO person (userid, email, password, \"firstName\", \"lastName\")" +
-                     "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO person (userid, email, password, \"firstName\", \"lastName\", role)" +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(url, properties); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, person.getUserid());
@@ -37,6 +37,7 @@ public class PersonDBSQL implements PersonDB {
             statement.setString(3, person.getHashedPassword());
             statement.setString(4, person.getFirstName());
             statement.setString(5, person.getLastName());
+            statement.setString(6, "user");
             statement.execute();
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
@@ -81,7 +82,7 @@ public class PersonDBSQL implements PersonDB {
 
     @Override
     public Person get(String personId) {
-        String sql = "SELECT userid, email, \"firstName\", \"lastName\", password, admin " +
+        String sql = "SELECT userid, email, \"firstName\", \"lastName\", password, role " +
                      "FROM person " +
                      "WHERE userid = ?";
 
@@ -93,11 +94,8 @@ public class PersonDBSQL implements PersonDB {
                 String password = result.getString("password");
                 String firstName = result.getString("firstName");
                 String lastName = result.getString("lastName");
-                Role r = Role.USER;
-                if (result.getString("admin") != null && result.getString("admin").equals("t")) {
-                    r = Role.ADMIN;
-                }
-                Person person = new Person(personId, email, password, firstName, lastName, r);
+                String role = result.getString("role");
+                Person person = new Person(personId, email, password, firstName, lastName, role);
                 return person;
             }
             else {
@@ -178,8 +176,8 @@ public class PersonDBSQL implements PersonDB {
         if (res.contains("password")) {
             res.remove("password");
         }
-        if (res.contains("admin")) {
-            res.remove("admin");
+        if (res.contains("role")) {
+            res.remove("role");
         }
         return res;
     }

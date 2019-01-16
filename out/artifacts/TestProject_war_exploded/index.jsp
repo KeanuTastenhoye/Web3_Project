@@ -19,22 +19,24 @@
 					<li id="actual">
 						<a href="Controller">Home</a>
 					</li>
-					<li>
-						<a href="Controller?action=PersonOverview">Users</a>
-					</li>
-					<li>
-						<a href="Controller?action=ProductOverview">Products</a>
-					</li>
-					<li>
-						<a href="Controller?action=CartOverview">Cart overview</a>
-					</li>
-					<li>
-						<a href="Controller?action=NaarSignUp">Sign up</a>
-					</li>
-					<c:if test="${role != null && role == 'ADMIN'}">
+					<c:if test="${sessionScope.person != null}">
 						<li>
-							<a href="Controller?action=NaarAddProduct">Add Product</a>
+							<a href="Controller?action=PersonOverview">Users</a>
 						</li>
+						<li>
+							<a href="Controller?action=ProductOverview">Products</a>
+						</li>
+						<li>
+							<a href="Controller?action=CartOverview">Cart overview</a>
+						</li>
+						<li>
+							<a href="Controller?action=NaarSignUp">Sign up</a>
+						</li>
+						<c:if test="${sessionScope.role != null}">
+							<li>
+								<a href="Controller?action=NaarAddProduct">Add Product</a>
+							</li>
+						</c:if>
 					</c:if>
 				</ul>
 			</nav>
@@ -71,32 +73,32 @@
 
 			<p> ${quote} </p>
 
-			<c:if test="${person == null}">
-				<form action="Controller?action=Login" method="post" novalidate="novalidate">
-					<label for="userid">UserId: </label>
-					<input type="text" name="userid" id="userid" placeholder="userid">
+				<c:if test="${sessionScope.person == null}">
+					<form action="Controller?action=Login" method="post" novalidate="novalidate">
+						<label for="userid">UserId: </label>
+						<input type="text" name="userid" id="userid" placeholder="userid">
 
-					<br>
+						<br>
 
-					<label for="password">Password: </label>
-					<input type="password" name="password" id="password">
+						<label for="password">Password: </label>
+						<input type="password" name="password" id="password">
 
-					<br>
+						<br>
 
-					<input type="submit" id="logIn" value="Log in">
-				</form>
-			</c:if>
-			<c:if test="${person != null}">
+						<input type="submit" id="logIn" value="Log in">
+					</form>
+				</c:if>
+
 				<br>
 
-				<p>Welcome, ${person}.</p>
+				<c:if test="${sessionScope.person != null}">
+					<p>Welcome, ${sessionScope.person}.</p>
 
-				<form action="Controller?action=Logout" method="post" novalidate="novalidate">
-					<input type="submit" id="logOut" value="Log out">
-				</form>
-			</c:if>
+					<form action="Controller?action=Logout" method="post" novalidate="novalidate">
+						<input type="submit" id="logOut" value="Log out">
+					</form>
+				</c:if>
 		</main>
-
 		<footer> &copy; Webontwikkeling 3, UC Leuven-Limburg </footer>
 	</div>
 </body>

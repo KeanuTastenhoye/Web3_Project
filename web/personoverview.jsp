@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +31,7 @@
                     <li>
                         <a href="Controller?action=NaarSignUp">Sign up</a>
                     </li>
-                    <c:if test="${role != null && role == 'ADMIN'}">
+                    <c:if test="${sessionScope.role != null}">
                         <li>
                             <a href="Controller?action=NaarAddProduct">Add Product</a>
                         </li>
@@ -42,7 +41,6 @@
             <h2>User Overview</h2>
         </header>
         <main>
-
             <form action="Controller?action=Sort" method="post">
                 <p>Sorteren op:</p>
                 <select name="sort">
@@ -59,20 +57,19 @@
                     <th>E-mail</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <c:if test="${role != null && role == 'ADMIN'}">
+                    <c:if test="${sessionScope.role != null}">
                         <th>Delete</th>
                         <th>Check Password</th>
                     </c:if>
                 </tr>
                 <c:forEach var="person" items="${persons}">
-                <tr>
                     <td><c:out value='${person.userid}'/></td>
                     <td><c:out value='${person.email}'/></td>
                     <td><c:out value='${person.firstName}'/></td>
                     <td><c:out value='${person.lastName}'/></td>
-                    <c:if test="${role != null && role == 'ADMIN'}">
+                    <c:if test="${sessionScope.role != null}">
                         <td><a href="Controller?action=RemovePerson&userid=<c:out value='${person.userid}'/>"> Delete </a></td>
-                        <td><a href="Controller?action=CheckPassword&userid=${fn:escapeXml(person.userid)}"> Check </a></td>
+                        <td><a href="Controller?action=CheckPassword&userid=<c:out value='${person.userid}'/>"> Check </a></td>
                     </c:if>
                 </tr>
                 </c:forEach>

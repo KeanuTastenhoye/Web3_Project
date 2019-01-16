@@ -11,7 +11,7 @@ public class Person {
     private String hashedPassword;
     private String firstName;
     private String lastName;
-    private Role role = Role.USER;
+    private Role role;
 
     public Person(String userid, String email, String password, String firstName, String lastName) {
         setUserid(userid);
@@ -21,7 +21,7 @@ public class Person {
         setLastName(lastName);
     }
 
-    public Person(String userid, String email, String password, String firstName, String lastName, Role role) {
+    public Person(String userid, String email, String password, String firstName, String lastName, String role) {
         setUserid(userid);
         setEmail(email);
         setHashedPassword(password);
@@ -51,7 +51,7 @@ public class Person {
         return hashedPassword;
     }
 
-    public Role getRole() { return role; }
+    public String getRole() { return this.role.name().toLowerCase(); }
 
     public void setUserid(String userid) {
         if(userid.isEmpty()){
@@ -117,8 +117,8 @@ public class Person {
         return getHashedPassword().equals(hashPassword(password));
     }
 
-    private void setRole(Role role) {
-        this.role = role;
+    private void setRole(String role) {
+        this.role = Role.getRole(role);
     }
 
     @Override

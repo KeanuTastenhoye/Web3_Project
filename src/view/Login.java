@@ -2,7 +2,6 @@ package view;
 
 import domain.model.DomainException;
 import domain.model.Person;
-import domain.model.Role;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +23,8 @@ public class Login extends RequestHandler {
                 return "Controller?action=NaarIndex";
             } else {
                 request.getSession().setAttribute("person", pe.getFirstName());
-                if (pe.getRole() == Role.ADMIN) {
-                    request.getSession().setAttribute("role",pe.getRole().toString());
+                if (pe.getRole().equals("admin")) {
+                    request.getSession().setAttribute("role", pe);
                 }
             }
         } catch (Exception e) {

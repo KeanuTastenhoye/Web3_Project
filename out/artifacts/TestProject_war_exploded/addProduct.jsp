@@ -31,7 +31,7 @@
                 <li>
                     <a href="Controller?action=NaarSignUp">Sign up</a>
                 </li>
-                <c:if test="${role != null && role == 'ADMIN'}">
+                <c:if test="${sessionScope.role != null}">
                     <li id="actual">
                         <a href="Controller?action=NaarAddProduct">Add Product</a>
                     </li>
@@ -63,7 +63,7 @@
             </p>
             <p>
                 <label for="description">Description</label>
-                <input type="text" id="description" name="description"required value="<c:out value='${description}'/>">
+                <input type="text" id="description" name="description" required value="<c:out value='${description}'/>">
             </p>
             <p>
                 <label for="price">Price</label>

@@ -31,7 +31,7 @@
                 <li>
                     <a href="Controller?action=NaarSignUp">Sign up</a>
                 </li>
-                <c:if test="${role != null && role == 'ADMIN'}">
+                <c:if test="${sessionScope.role != null}">
                     <li>
                         <a href="Controller?action=NaarAddProduct">Add Product</a>
                     </li>
@@ -47,7 +47,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
-                <c:if test="${role != null && role == 'ADMIN'}">
+                <c:if test="${sessionScope.role != null}">
                     <th>Delete</th>
                 </c:if>
                 <th>Amount</th>
@@ -55,10 +55,10 @@
             </tr>
             <c:forEach var="product" items="${records}">
             <tr>
-                <td><c:if test="${role != null && role == 'ADMIN'}"><a href="Controller?action=EditProduct&productId=<c:out value='${product.productId}'/>"></c:if><c:out value='${product.name}'/></a></td>
+                <td><c:if test="${sessionScope.role != null}"><a href="Controller?action=EditProduct&productId=<c:out value='${product.productId}'/>"></c:if><c:out value='${product.name}'/></a></td>
                 <td><c:out value='${product.description}'/></td>
                 <td><c:out value='${product.price}'/></td>
-                <c:if test="${role != null && role == 'ADMIN'}">
+                <c:if test="${sessionScope.role != null}">
                     <td><a href="Controller?action=RemoveProduct&productId=<c:out value='${product.productId}'/>"> Delete </a></td>
                 </c:if>
                 <td>

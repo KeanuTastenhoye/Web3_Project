@@ -31,7 +31,7 @@
                 <li>
                     <a href="Controller?action=NaarSignUp">Sign up</a>
                 </li>
-                <c:if test="${role != null && role == 'ADMIN'}">
+                <c:if test="${sessionScope.role != null}">
                     <li>
                         <a href="Controller?action=NaarAddProduct">Add Product</a>
                     </li>
@@ -48,13 +48,13 @@
                 <th>Description</th>
                 <th>Price</th>
             </tr>
-
+            <c:forEach var="product" items="${products}">
             <tr>
                 <td><c:out value='${product.name}'/></td>
                 <td><c:out value='${product.description}'/></td>
                 <td><c:out value='${product.price}'/></td>
             </tr>
-            
+            </c:forEach>
         </table>
     </main>
     <footer>&copy; Webontwikkeling 3, UC Leuven-Limburg</footer>

@@ -31,7 +31,7 @@
                     <li id="actual">
                         <a href="Controller?action=NaarSignUp">Sign up</a>
                     </li>
-                    <c:if test="${role != null && role == 'ADMIN'}">
+                    <c:if test="${sessionScope.role != null}">
                         <li>
                             <a href="Controller?action=NaarAddProduct">Add Product</a>
                         </li>
